@@ -1,0 +1,11 @@
+*.py[co]
+__pycache__
+bin/
+include/
+lib/
+pip-selfcheck.json
+**/migrations/0*.py
+*.sqlite3
+media/
+smart_currencyer/settings_env.py
+db.sqlite3

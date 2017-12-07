@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+
+{% block title %} SmartCurrencyer {% endblock %}
+{% load static %}
+{% block extrahead %}
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" sizes="48x48" />
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">SmartCurrencyer 💰</a></h1>
+<hr>
+{% endblock %}
+
+
+{% block nav-global %}{% endblock %}
