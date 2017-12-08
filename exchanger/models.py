@@ -82,6 +82,7 @@ class Transaction(models.Model):
     class Meta:
         verbose_name = "Transacción"
         verbose_name_plural = "Transacciones"
+        ordering = ('date_time',)
 
     def __str__(self):
         from_user = ' From: ' + self.from_wallet.user.username
