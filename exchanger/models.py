@@ -48,6 +48,20 @@ class Wallet(models.Model):
             self.currency.symbol, ' ', str(
                 self.balance), ' -> ', self.user.username)
 
+    def same_currency(self, wallet):
+        return wallet.currency == self.currency
+
+    def can_send(self, amount):
+        return (self.balance - amount) >= 0
+
+    def sum(self, amount):
+        self.balance += amount
+        return self.save()
+
+    def remove(self, amount):
+        self.balance -= amount
+        return self.save()
+
 
 class Transaction(models.Model):
     amount = models.FloatField(_('Monto de la transacción'))
@@ -82,8 +96,9 @@ class Transaction(models.Model):
 
     def save(self, *args, **kwargs):
         """Check if transaction is between two same currency wallets."""
-        same_currency = self.from_wallet.currency == self.to_wallet.currency
-        has_enough_money = (self.from_wallet.balance - self.amount) >= 0
+        same_currency = self.from_wallet.same_currency(self.to_wallet)
+        has_enough_money = self.from_wallet.can_send(self.amount)
+
         if not same_currency:
             raise Exception('Wallets must have the same currency')
         elif not has_enough_money:
@@ -91,9 +106,7 @@ class Transaction(models.Model):
                 'Owner wallet must have enought money for the transaction')
         else:
             #  Update the amount of the wallets
-            self.from_wallet.balance -= self.amount
-            self.from_wallet.save()
-            self.to_wallet.balance += self.amount
-            self.to_wallet.save()
-            #  Finally save the transaction
+            self.from_wallet.remove(self.amount)
+            self.to_wallet.sum(self.amount)
+
             super(Transaction, self).save(*args, **kwargs)
