@@ -9,6 +9,8 @@ A demo project in order to serve as a example of how to bind [AngularJS](https:/
 
 In the console run the following commands
 
++ Activate your virtualenv...
++ `pip install -r requirements.txt`
 + `python manage.py migrate`
 + `python manage.py loaddata fixtures/currencies.json`
 + `python manage.py runserver`
