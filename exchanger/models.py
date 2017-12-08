@@ -51,6 +51,7 @@ class Wallet(models.Model):
 
 class Transaction(models.Model):
     amount = models.FloatField(_('Monto de la transacción'))
+    date_time = models.DateTimeField(_('Fecha y Hora'), auto_now_add=True)
 
     from_wallet = models.ForeignKey(
         Wallet,
@@ -71,9 +72,28 @@ class Transaction(models.Model):
     def __str__(self):
         from_user = ' From: ' + self.from_wallet.user.username
         from_to = from_user + ' To: ' + self.to_wallet.user.username
-        return str(self.amount) + from_to
+        return str(self.amount) + from_to + ' ' + str(self.date_time)
 
     def __unicode__(self):
         from_user = ' From: ' + self.from_wallet.user.username
         from_to = from_user + ' To: ' + self.to_wallet.user.username
-        return u'%s%s%s' % (str(self.amount), ' ', from_to)
+        return u'%s%s%s%s%s' % (
+            str(self.amount), ' ', from_to, ' ', str(self.date_time))
+
+    def save(self, *args, **kwargs):
+        """Check if transaction is between two same currency wallets."""
+        same_currency = self.from_wallet.currency == self.to_wallet.currency
+        has_enough_money = (self.from_wallet.balance - self.amount) >= 0
+        if not same_currency:
+            raise Exception('Wallets must have the same currency')
+        elif not has_enough_money:
+            raise Exception(
+                'Owner wallet must have enought money for the transaction')
+        else:
+            #  Update the amount of the wallets
+            self.from_wallet.balance -= self.amount
+            self.from_wallet.save()
+            self.to_wallet.balance += self.amount
+            self.to_wallet.save()
+            #  Finally save the transaction
+            super(Transaction, self).save(*args, **kwargs)
