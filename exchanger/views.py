@@ -6,6 +6,7 @@ from serializers import UserSerializer, CurrencySerializer
 from serializers import TransactionSerializer, WalletSerializer
 from rest_framework import permissions
 from models import Currency, Transaction, Wallet
+from django_filters import rest_framework
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -30,3 +31,5 @@ class WalletViewSet(viewsets.ModelViewSet):
     queryset = Wallet.objects.all()
     serializer_class = WalletSerializer
     permission_classes = (permissions.IsAuthenticated,)
+    filter_backends = (rest_framework.DjangoFilterBackend,)
+    filter_fields = ('user__username',)

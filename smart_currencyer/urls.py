@@ -10,6 +10,7 @@ router.register(r'wallets', views.WalletViewSet)
 router.register(r'transactions', views.TransactionViewSet)
 router.register(r'currencies', views.CurrencyViewSet)
 
+
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^admin/', admin.site.urls),
