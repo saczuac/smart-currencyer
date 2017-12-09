@@ -18,4 +18,10 @@ In the console run the following commands
 
 ### Client
 
-In maintance... for now
+In the console run the following commands in order to develop
+
++ `python manage.py runserver`
++ `cd smart-currencyer-client`
++ `npm install`
++ `ng serve`
++ Then go to [localhost](http://localhost:4200)
