@@ -1,0 +1,17 @@
+<button (click)="goBack()">go back</button>
+<div *ngIf="currency">
+
+  <h2>{{ currency.name | uppercase }} Details</h2>
+  <div>
+    <label>Symbol:
+      <input [(ngModel)]="currency.symbol" placeholder="symbol">
+    </label>
+  </div>
+  <div>
+    <label>Name:
+      <input [(ngModel)]="currency.name" placeholder="name">
+    </label>
+  </div>
+  <button (click)="save()">save</button>
+
+</div>
