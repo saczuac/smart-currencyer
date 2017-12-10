@@ -4,12 +4,11 @@ from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.Serializer):
-    email = serializers.EmailField()
     username = serializers.CharField(max_length=100)
 
     class Meta:
         model = User
-        fields = ('username', 'email')
+        fields = ('username')
 
 
 class CurrencySerializer(serializers.ModelSerializer):
@@ -19,8 +18,14 @@ class CurrencySerializer(serializers.ModelSerializer):
 
 
 class WalletSerializer(serializers.ModelSerializer):
-    user = UserSerializer(required=False)
-    currency = CurrencySerializer(many=False, read_only=True)
+    user = UserSerializer()
+    currency = CurrencySerializer()
+
+    def create(self, validated_data):
+        currency = Currency.objects.get(
+            name=validated_data['currency']['name'])
+        user = User.objects.get(username=validated_data['user']['username'])
+        return Wallet.objects.create(currency=currency, user=user)
 
     class Meta:
         model = Wallet
