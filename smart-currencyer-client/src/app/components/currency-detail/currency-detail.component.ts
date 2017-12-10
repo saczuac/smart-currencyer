@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CurrencyService }  from './../../services/currency.service';
 import { Component, OnInit, Input } from '@angular/core';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-currency-detail',
@@ -31,7 +32,15 @@ export class CurrencyDetailComponent implements OnInit {
 
   save(): void {
      this.currencyService.updateCurrency(this.currency)
-       .subscribe(() => this.goBack());
+       .subscribe(() => {
+         swal({
+           title: 'Currency updated',
+           type: 'success',
+         }).then(() => {
+           this.goBack()
+         })
+
+       });
    }
 
   goBack = () => this.location.back()

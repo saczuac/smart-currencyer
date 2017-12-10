@@ -1,17 +1,19 @@
-<button (click)="goBack()">go back</button>
+<button (click)="goBack()"><fa name="arrow-left"></fa> Go back</button>
 <div *ngIf="currency">
-
-  <h2>{{ currency.name | uppercase }} Details</h2>
-  <div>
-    <label>Symbol:
-      <input [(ngModel)]="currency.symbol" placeholder="symbol">
-    </label>
+  <h2 class="title">{{ currency.name | uppercase }} Details</h2>
+  <div class="centered">
+    <form>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input [(ngModel)]="currency.name" placeholder="name" aria-describedby="currencyNameHelp" name="name">
+        <small id="currencyNameHelp" class="form-text text-muted">Be sure the name does not exist</small>
+      </div>
+      <div class="form-group">
+        <label for="name">Symbol</label>
+        <input [(ngModel)]="currency.symbol" placeholder="symbol" aria-describedby="currencySymbolHelp" name="symbol">
+        <small id="currencySymbolHelp" class="form-text text-muted">Like USD$, ARS$...</small>
+      </div>
+    </form>
+    <button (click)="save()">Save</button>
   </div>
-  <div>
-    <label>Name:
-      <input [(ngModel)]="currency.name" placeholder="name">
-    </label>
-  </div>
-  <button (click)="save()">save</button>
-
 </div>
