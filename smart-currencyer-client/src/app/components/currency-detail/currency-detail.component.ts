@@ -1,7 +1,7 @@
-import { Currency } from './../classes/currency';
+import { Currency } from './../../classes/currency';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { CurrencyService }  from './../services/currency.service';
+import { CurrencyService }  from './../../services/currency.service';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({

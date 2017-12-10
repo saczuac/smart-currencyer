@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CurrenciesComponent } from './currencies/currencies.component';
-import { CurrencyDetailComponent }  from './currency-detail/currency-detail.component';
+import { CurrenciesComponent } from './components/currencies/currencies.component';
+import { CurrencyDetailComponent }  from './components/currency-detail/currency-detail.component';
 
 const routes: Routes = [
   { path: 'currencies', component: CurrenciesComponent },

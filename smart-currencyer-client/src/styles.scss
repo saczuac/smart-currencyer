@@ -1,0 +1,42 @@
+/* Application-wide Styles */
+
+$fa-font-path: "../node_modules/font-awesome/fonts";
+@import "../node_modules/font-awesome/scss/font-awesome.scss";
+
+@font-face {
+    font-family: "DINNextRoundedLTW01-Regular";
+    src: url("/assets/fonts/DIN.eot"); /* IE9*/
+    src: url("/assets/fonts/DIN.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("/assets/fonts/DIN.woff2") format("woff2"), /* chrome firefox */
+    url("/assets/fonts/DIN.woff") format("woff"), /* chrome firefox */
+    url("/assets/fonts/DIN.ttf") format("truetype"), /* chrome firefox opera Safari, Android, iOS 4.2+*/
+    url("/assets/fonts/DIN.svg#DINNextRoundedLTW01-Regular") format("svg"); /* iOS 4.1- */
+}
+
+@font-face {
+    font-family: "DINNextRoundedLTW01-Bold";
+    src: url("/assets/fonts/DIN-bold.eot"); /* IE9*/
+    src: url("/assets/fonts/DIN-bold.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("/assets/fonts/DIN-bold.woff2") format("woff2"), /* chrome firefox */
+    url("/assets/fonts/DIN-bold.woff") format("woff"), /* chrome firefox */
+    url("/assets/fonts/DIN-bold.ttf") format("truetype"), /* chrome firefox opera Safari, Android, iOS 4.2+*/
+    url("/assets/fonts/DIN-bold.svg#DINNextRoundedLTW01-Bold") format("svg"); /* iOS 4.1- */
+}
+
+*, html {
+    font-family: "DINNextRoundedLTW01-Regular" !important;
+    letter-spacing: 0.04em;
+}
+
+button:hover {
+     background-color: #5cb85c !important; 
+}
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome !important;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
