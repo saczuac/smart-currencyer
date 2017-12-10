@@ -50,3 +50,8 @@ button:hover {
 .centered {
     text-align: center
 }
+
+.inactive-link {
+   pointer-events: none;
+   cursor: default;
+}

@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CurrenciesComponent } from './components/currencies/currencies.component';
+import { WalletsComponent } from './components/wallets/wallets.component';
 import { CurrencyDetailComponent }  from './components/currency-detail/currency-detail.component';
 
 const routes: Routes = [
   { path: 'currencies', component: CurrenciesComponent },
-  { path: '', redirectTo: '/currencies', pathMatch: 'full' },
+  { path: 'wallets', component: WalletsComponent },
+  { path: '', redirectTo: '/wallets', pathMatch: 'full' },
   { path: 'detail/:id', component: CurrencyDetailComponent },
 ];
 

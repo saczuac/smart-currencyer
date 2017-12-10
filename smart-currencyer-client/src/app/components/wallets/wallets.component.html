@@ -1,0 +1,50 @@
+<h2 class="title">Available Wallets</h2>
+
+<div class="buttons">
+  <button class="btn btn-outline-success" data-toggle="modal" data-target="#walletModal">
+    New Wallet
+  </button>
+</div>
+
+<div class="modal fade" id="walletModal" tabindex="-1" role="dialog" aria-labelledby="walletModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Wallet</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <form>
+          <div class="form-group">
+            <label for="currency">Currency</label>
+            <select #walletCurrency class="form-control" [(ngModel)]="selectedCurrency" name="selectedCurrency">
+              <option>Select one</option>
+              <option *ngFor="let currency of currencies" [ngValue]="currency">{{currency.name}}</option>
+            </select>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="add()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ul class="wallets">
+  <li *ngFor="let wallet of wallets">
+    <a href="" class="inactive-link">
+      <span class="badge">{{wallet.currency.symbol}}</span> {{wallet.balance}}
+    </a>
+
+    <button class="delete btn" title="delete wallet"
+    (click)="delete(wallet)"><fa name="trash"></fa></button>
+  </li>
+</ul>

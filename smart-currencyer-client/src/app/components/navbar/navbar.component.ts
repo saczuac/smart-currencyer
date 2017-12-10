@@ -17,7 +17,7 @@ export class NavbarComponent implements OnInit {
   getLinks(): void {
     this.links = [
       {"name":"Currencies", "url":"/currencies"} as Link,
-      // {"name":"AnotherLink", "url":"/path"} as Link,
+      {"name":"Wallets", "url":"/wallets"} as Link,
     ];
   }
 
