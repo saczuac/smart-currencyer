@@ -28,3 +28,4 @@ In the console run the following commands in order to develop
 + `cd smart-currencyer-client`
 + `npm install`
 + `ng serve --open`
++ Login with some users, create wallets, make transaction (notice that the sender and the receiver must have a wallet of same currency)
