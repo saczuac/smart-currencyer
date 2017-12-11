@@ -36,6 +36,15 @@ export class CurrencyService {
       );
   }
 
+  getHaventCurrencies (): Observable<Currency[]> {
+    const url = `${this.currencyUrl}/havent_user/`
+    return this.http.get<Currency[]>(url)
+      .pipe(
+        tap(currencies => console.log(`fetched currencies`)),
+        catchError(this.handleError('getHaventCurrencies', []))
+      );
+  }
+
   getCurrency(id: number): Observable<Currency> {
     const url = `${this.currencyUrl}/${id}/`;
     return this.http.get<Currency>(url).pipe(

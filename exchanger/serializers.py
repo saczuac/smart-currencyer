@@ -5,10 +5,11 @@ from django.contrib.auth.models import User
 
 class UserSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=100)
+    id = serializers.IntegerField()
 
     class Meta:
         model = User
-        fields = ('username')
+        fields = ('id', 'username')
 
 
 class CurrencySerializer(serializers.ModelSerializer):
@@ -18,13 +19,15 @@ class CurrencySerializer(serializers.ModelSerializer):
 
 
 class WalletSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserSerializer(required=False)
     currency = CurrencySerializer()
+    id = serializers.IntegerField(required=False)
 
     def create(self, validated_data):
+        user = self.context['request'].user
         currency = Currency.objects.get(
             name=validated_data['currency']['name'])
-        user = User.objects.get(username=validated_data['user']['username'])
+
         return Wallet.objects.create(currency=currency, user=user)
 
     class Meta:
@@ -33,8 +36,19 @@ class WalletSerializer(serializers.ModelSerializer):
 
 
 class TransactionSerializer(serializers.ModelSerializer):
-    from_wallet = WalletSerializer(many=False, read_only=True)
-    to_wallet = WalletSerializer(many=False, read_only=True)
+    from_wallet = WalletSerializer(many=False)
+    to_wallet = WalletSerializer(many=False)
+
+    def create(self, validated_data):
+        from_wallet = Wallet.objects.get(
+            pk=validated_data['from_wallet']['id'])
+        to_wallet = Wallet.objects.get(pk=validated_data['to_wallet']['id'])
+        amount = validated_data['amount']
+        return Transaction.objects.create(
+            to_wallet=to_wallet,
+            from_wallet=from_wallet,
+            amount=amount
+        )
 
     class Meta:
         model = Transaction

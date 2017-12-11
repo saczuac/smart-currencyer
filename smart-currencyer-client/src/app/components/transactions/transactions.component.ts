@@ -65,28 +65,37 @@ export class TransactionsComponent implements OnInit {
     if (!this.selectedUser) { return; }
     if (!amount) { return; }
 
-    const fromWallet = this.selectedWallet
+    const from_wallet = this.selectedWallet
     const toUser = this.selectedUser
 
-    this.walletService.getWalletOfUser(toUser, fromWallet.currency)
-      .subscribe(toWallet => {
+    this.walletService.getWalletOfUser(toUser, from_wallet.currency)
+      .subscribe(to_wallet => {
 
-          // this.transactionService.addWallet({ fromWallet, toWallet, amount } as Transaction)
-          //   .subscribe(transaction => {
-          //     if (transaction) {
-          //       $('#transactionModal').modal('hide');
-          //       swal({
-          //         title: 'Transaction created',
-          //         type: 'success',
-          //       })
-          //       this.transactions.push(transaction);
-          //     } else {
-          //       swal({
-          //         title: 'Error creating transaction',
-          //         type: 'error',
-          //       })
-          //     }
-          //   });
+          if (!to_wallet) {
+            return swal({
+                  title: `Error creating transaction: ${toUser.username} has not a wallet of currency ${from_wallet.currency.name}`,
+                  type: 'error',
+                })
+          }
+
+          const to_wallet = to_wallet[0]
+
+          this.transactionService.addTransaction({ to_wallet, from_wallet, amount } as Transaction)
+            .subscribe(transaction => {
+              if (transaction) {
+                $('#transactionModal').modal('hide');
+                swal({
+                  title: 'Transaction created',
+                  type: 'success',
+                })
+                this.transactions.push(transaction);
+              } else {
+                swal({
+                  title: 'Error creating transaction',
+                  type: 'error',
+                })
+              }
+            });
 
         })
   }

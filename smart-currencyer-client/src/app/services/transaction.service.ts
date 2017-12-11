@@ -34,4 +34,16 @@ export class TransactionService {
         catchError(this.handleError('getTransactions', []))
       );
   }
+
+  addTransaction(transaction: Transaction): Observable<Transaction> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    console.log(transaction, 'acaa')
+
+    return this.http.post<Transaction>(this.transactionUrl + '/', transaction, httpOptions).pipe(
+      tap((transaction: Transaction) => console.log(`added transaction w/ id=${transaction.id}`)),
+      catchError(this.handleError<Transaction>('addTransaction'))
+    );
+  }
 }

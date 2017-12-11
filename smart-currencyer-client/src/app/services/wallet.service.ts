@@ -46,9 +46,13 @@ export class WalletService {
   }
 
   getWalletOfUser(user: User, currency: Currency): Observable<Wallet> {
-    const url = `${this.walletUrl}/?user__username=${user.username}>&currency__name=${currency.name}/`;
+    const url = `${this.walletUrl}/${user.id}/get_wallet_of_user/`;
 
-    return this.http.get<Wallet>(url).pipe(
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+
+    return this.http.post<Wallet>(url, currency, httpOptions).pipe(
       tap(_ => console.log(`fetched wallet of user =${user.username}`)),
       catchError(this.handleError<Wallet>(`getWalletOfUser user=${user.username}`))
     );

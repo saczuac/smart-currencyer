@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrencyService } from './../../services/currency.service';
 import { WalletService } from './../../services/wallet.service';
+import { LoginService } from './../../services/login.service';
 import { Currency } from './../../classes/currency';
 import { Wallet } from './../../classes/wallet';
 import { User } from './../../classes/user';
@@ -21,7 +22,11 @@ export class WalletsComponent implements OnInit {
   selectedWallet: Wallet;
   currencies: Currency[];
 
-  constructor(private currencyService: CurrencyService, private walletService: WalletService) { }
+  constructor(
+    private currencyService: CurrencyService,
+    private walletService: WalletService,
+    private loginService: LoginService
+    ) { }
 
   ngOnInit() {
     this.getCurrencies();
@@ -33,7 +38,7 @@ export class WalletsComponent implements OnInit {
   }
 
   getCurrencies(): void {
-    this.currencyService.getCurrencies()
+    this.currencyService.getHaventCurrencies()
         .subscribe(currencies => this.currencies = currencies);
   }
 
@@ -46,10 +51,8 @@ export class WalletsComponent implements OnInit {
     if (!this.selectedCurrency) { return; }
     const balance = 0
     const currency = this.selectedCurrency
-    const username = 'sac'
-    const user = { username } as User
 
-    this.walletService.addWallet({ balance, currency, user } as Wallet)
+    this.walletService.addWallet({ balance, currency } as Wallet)
       .subscribe(wallet => {
 
         if (wallet) {
