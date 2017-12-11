@@ -69,12 +69,12 @@ export class TransactionsComponent implements OnInit {
          swal({
             title: `The wallet has not enough money`,
             type: 'error',
-          })};
+          });
          return;
     }
 
-    const from_wallet = this.selectedWallet
-    const toUser = this.selectedUser
+    let from_wallet = this.selectedWallet
+    let toUser = this.selectedUser
 
     this.walletService.getWalletOfUser(toUser, from_wallet.currency)
       .subscribe(to_wallet => {
