@@ -58,9 +58,22 @@
   <li *ngFor="let transaction of transactions"
       [class.notMine]="sameUsername(transaction.from_wallet.user.username)"
   >
-    <a href="" class="inactive-link">
-      <span class="badge">{{transaction.to_wallet.user.username}}</span>
-      {{transaction.amount}} - {{ transaction.to_wallet.currency.symbol }}
+    <a href="" class="inactive-link" *ngIf="sameUsername(transaction.from_wallet.user.username); else notmine">
+      <span class="badge">
+       To: {{transaction.to_wallet.user.username}}
+      </span>
+      {{transaction.amount}} - {{ transaction.to_wallet.currency.symbol }} <fa name="minus"> </fa>
     </a>
+
+    <ng-template #notmine>
+      <a href="" class="inactive-link">
+        <span class="badge">
+         From: {{transaction.from_wallet.user.username}}
+        </span>
+        {{transaction.amount}} - {{ transaction.from_wallet.currency.symbol }} <fa name="plus"> </fa>
+      </a>
+    </ng-template>
+    
   </li>
+
 </ul>

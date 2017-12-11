@@ -3,7 +3,7 @@
 .transactions {
   list-style-type: none;
   padding: 0;
-  width: 15em;
+  width: 30em;
   margin: 0 auto;
   margin-top: 2em;
 }
@@ -12,6 +12,7 @@
   position: relative !important;
   cursor: pointer !important;
   background-color: #AED581;
+  color: white;
   margin-bottom: 1em;
   padding: 1em;
   height: 1em;
@@ -25,7 +26,7 @@
 }
  
 .transactions a {
-  color: #888 !important;
+  color: white !important;
   text-decoration: none !important;
   position: relative !important;
   display: block !important;
@@ -45,9 +46,9 @@
   position: relative !important;
   left: -15px !important;
   height: 2.4em;
+  width: 10em;
   text-align: right !important;
   margin-right: .8em !important;
-  width: 4.5em;
   text-align: center !important;
   border-radius: 4px 0 0 4px !important;
 }
