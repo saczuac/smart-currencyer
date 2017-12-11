@@ -16,7 +16,9 @@ In the console run the following commands
 + `python manage.py loaddata fixtures/currencies.json`
 + Create some users with: `python manage.py createsuperuser`
 + `python manage.py runserver`
-+ Go to [localhost](http://localhost:8000)
+
+
++ You can go to [localhost](http://localhost:8000/admin) and do crud from here but better use the client! 
 
 ### Client
 
@@ -25,5 +27,4 @@ In the console run the following commands in order to develop
 + `python manage.py runserver`
 + `cd smart-currencyer-client`
 + `npm install`
-+ `ng serve`
-+ Then go to [localhost](http://localhost:4200)
++ `ng serve --open`
