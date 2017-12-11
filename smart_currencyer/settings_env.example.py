@@ -7,7 +7,7 @@ SECRET_KEY = 'super-secret-key-here'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['']
+ALLOWED_HOSTS = []
 
 DATABASES = {
     'default': {
