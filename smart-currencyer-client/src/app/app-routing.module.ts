@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'detail/:id', component: CurrencyDetailComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LoginComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/wallets', pathMatch: 'full' },
 ];
 
 @NgModule({
