@@ -97,13 +97,11 @@ export class TransactionsComponent implements OnInit {
                   type: 'success',
                 })
                 this.transactions.push(transaction);
-              } else {
-                swal({
-                  title: 'Error creating transaction',
-                  type: 'error',
-                })
               }
-            });
+            }, error => {
+              
+            })
+            ;
 
         })
   }

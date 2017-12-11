@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import swal from 'sweetalert2';
 
 @Injectable()
 export class TransactionService {
@@ -22,7 +23,13 @@ export class TransactionService {
     return (error: any): Observable<T> => {
       console.error(error);
       console.log(`${operation} failed: ${error.message}`);
-      // Let the app keep running by returning an empty result.
+      const errorMsg = error.error.detail ? error.error.detail: error.error
+
+      swal({
+        title: `Error ${operation}: ${errorMsg}`,
+        type: 'error',
+      })
+
       return of(result as T);
     };
   }
@@ -31,7 +38,7 @@ export class TransactionService {
     return this.http.get<Transaction[]>(this.transactionUrl + '/')
       .pipe(
         tap(users => console.log(`fetched transactions`)),
-        catchError(this.handleError('getTransactions', []))
+        catchError(this.handleError('fetching transactions', []))
       );
   }
 
@@ -43,7 +50,7 @@ export class TransactionService {
 
     return this.http.post<Transaction>(this.transactionUrl + '/', transaction, httpOptions).pipe(
       tap((transaction: Transaction) => console.log(`added transaction w/ id=${transaction.id}`)),
-      catchError(this.handleError<Transaction>('addTransaction'))
+      catchError(this.handleError<Transaction>('creating transaction'))
     );
   }
 }
