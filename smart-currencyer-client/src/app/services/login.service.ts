@@ -34,6 +34,10 @@ export class LoginService {
     return localStorage.token != null
   }
 
+  getUsername(): string {
+    return localStorage.username
+  }
+
   logout(): void {
     localStorage.clear();
   }
@@ -48,6 +52,7 @@ export class LoginService {
                           httpOptions).pipe(
       tap((token:any) => {
         localStorage.token = token.token
+        localStorage.username = username
       }),
       catchError(this.handleError<any>('login'))
     );

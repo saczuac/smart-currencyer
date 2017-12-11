@@ -20,7 +20,8 @@ export class NavbarComponent implements OnInit {
 
     this.links = [
       {"name":"Currencies", "url":"/currencies"} as Link,
-      {"name":"Wallets", "url":"/wallets"} as Link
+      {"name":"Wallets", "url":"/wallets"} as Link,
+      {"name":"Transactions", "url":"/transactions"} as Link
     ];
   }
 

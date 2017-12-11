@@ -1,0 +1,97 @@
+/* TransactionsComponent's private CSS styles */
+
+.transactions {
+  list-style-type: none;
+  padding: 0;
+  width: 15em;
+  margin: 0 auto;
+  margin-top: 2em;
+}
+
+.transactions li {
+  position: relative !important;
+  cursor: pointer !important;
+  background-color: #AED581;
+  margin-bottom: 1em;
+  padding: 1em;
+  height: 1em;
+  border-radius: 4px;
+}
+ 
+.transactions li:hover {
+  color: #607D8B;
+  background-color: #DDD;
+  left: .1em !important;
+}
+ 
+.transactions a {
+  color: #888 !important;
+  text-decoration: none !important;
+  position: relative !important;
+  display: block !important;
+  margin-top: -1em;
+}
+ 
+.transactions a:hover {
+  color:#607D8B !important;
+}
+ 
+.transactions .badge {
+  font-size: small !important;
+  color: white !important;
+  padding: 0.8em 0.7em 0 0.7em !important;
+  background-color: #607D8B;
+  line-height: 1em !important;
+  position: relative !important;
+  left: -15px !important;
+  height: 2.4em;
+  text-align: right !important;
+  margin-right: .8em !important;
+  width: 4.5em;
+  text-align: center !important;
+  border-radius: 4px 0 0 4px !important;
+}
+ 
+.button {
+  background-color: #eee;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  cursor: hand;
+  font-family: Arial;
+}
+ 
+button:hover {
+  background-color: #cfd8dc;
+}
+ 
+button.delete {
+  position: relative;
+  left: 190px;
+  top: -31px;
+  background-color: gray !important;
+  color: white;
+  width: 2em;
+  height: 2em;
+}
+
+.buttons {
+  text-align: center
+}
+
+.notMine{
+  background-color: #EF9A9A !important;
+}
+
+.notMine a {
+  color: white !important;
+}
+
+.notMine a:hover {
+  color: black !important;
+}
+
+.notMine :hover {
+  background-color: red !important;
+}

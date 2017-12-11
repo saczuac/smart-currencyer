@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Currency } from '../classes/currency';
+import { User } from '../classes/user';
 import { Wallet } from '../classes/wallet';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -42,6 +43,16 @@ export class WalletService {
       tap(_ => console.log(`fetched wallet id=${id}`)),
       catchError(this.handleError<Wallet>(`getWallet id=${id}`))
     );
+  }
+
+  getWalletOfUser(user: User, currency: Currency): Observable<Wallet> {
+    const url = `${this.walletUrl}/?user__username=${user.username}>&currency__name=${currency.name}/`;
+
+    return this.http.get<Wallet>(url).pipe(
+      tap(_ => console.log(`fetched wallet of user =${user.username}`)),
+      catchError(this.handleError<Wallet>(`getWalletOfUser user=${user.username}`))
+    );
+
   }
 
   addWallet(wallet: Wallet): Observable<Wallet> {

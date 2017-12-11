@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { CurrencyService } from './services/currency.service';
 import { WalletService } from './services/wallet.service';
 import { LoginService } from './services/login.service';
+import { UserService } from './services/user.service';
+import { TransactionService } from './services/transaction.service';
 import { AppComponent } from './components/app/app.component';
 import { CurrenciesComponent } from './components/currencies/currencies.component';
 import { CurrencyDetailComponent } from './components/currency-detail/currency-detail.component';
@@ -16,7 +18,8 @@ import { WalletsComponent } from './components/wallets/wallets.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import { AuthInterceptor } from './interceptors/auth.interceptor'
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { TransactionsComponent } from './components/transactions/transactions.component'
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor'
     CurrencyDetailComponent,
     NavbarComponent,
     WalletsComponent,
-    LoginComponent
+    LoginComponent,
+    TransactionsComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -39,6 +43,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor'
     CurrencyService,
     WalletService,
     LoginService,
+    UserService,
+    TransactionService,
     AuthGuard,
     {
         provide: HTTP_INTERCEPTORS,

@@ -1,0 +1,66 @@
+<h2 class="title">Transactions</h2>
+
+<div class="buttons">
+  <button class="btn btn-outline-success" data-toggle="modal" data-target="#transactionModal">
+    New Transaction
+  </button>
+</div>
+
+<div class="modal fade" id="transactionModal" tabindex="-1" role="dialog" aria-labelledby="transactionModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Transaction</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+	    	<div class="form-group">
+	    	  <label for="currency">Wallet From: </label>
+	    	  <select #walletFrom class="form-control" [(ngModel)]="selectedWallet" name="selectedWallet">
+	    	    <option>Select one</option>
+	    	    <option *ngFor="let wallet of wallets" [ngValue]="wallet">{{wallet.currency.name}} - {{ wallet.balance }} {{wallet.currency.symbol}}</option>
+	    	  </select>
+	    	</div>
+
+	    	<div class="form-group">
+	    	  <label for="currency">To User</label>
+	    	  <select #userTo class="form-control" [(ngModel)]="selectedUser" name="selectedUser">
+	    	    <option>Select one</option>
+	    	    <option *ngFor="let user of users" [ngValue]="user">
+	    	    	{{user.username}}
+	    	    </option>
+	    	  </select>
+	    	</div>
+
+
+          <div class="form-group">
+            <label for="name">Amount</label>
+            <input #amount class="form-control" placeholder="Enter an amount" aria-describedby="amountHelp"/>
+            <small id="amountHelp" class="form-text text-muted">Positive integer value > 1 </small>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="add(amount.value); amount.value='';">
+        	Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ul class="transactions">
+  <li *ngFor="let transaction of transactions"
+      [class.notMine]="sameUsername(transaction.from_wallet.user.username)"
+  >
+    <a href="" class="inactive-link">
+      <span class="badge">{{transaction.to_wallet.user.username}}</span>
+      {{transaction.amount}} - {{ transaction.to_wallet.currency.symbol }}
+    </a>
+  </li>
+</ul>
