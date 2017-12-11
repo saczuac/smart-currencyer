@@ -14,6 +14,7 @@ In the console run the following commands
 + `cp smart_currencyer/settings_env.example.py smart_currencyer/settings_env.py`
 + `python manage.py migrate`
 + `python manage.py loaddata fixtures/currencies.json`
++ Create some users with: `python manage.py createsuperuser`
 + `python manage.py runserver`
 + Go to [localhost](http://localhost:8000)
 
