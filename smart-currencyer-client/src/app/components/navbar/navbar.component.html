@@ -12,13 +12,26 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
 
-    	<li *ngFor="let link of links" class="nav-item" 
-    		[class.active]="link === selectedLink" 
-    		(click)="onSelect(link)"
-    	>
-        	<a class="nav-link" routerLink={{link.url}}>{{link.name}}</a>
-    	</li>
+      <ng-container *ngIf="loginService.isAuthenticated()">
+      	<li *ngFor="let link of links" class="nav-item" 
+      		[class.active]="link === selectedLink" 
+      		(click)="onSelect(link)"
+      	>
+          	<a class="nav-link" routerLink={{link.url}}>{{link.name}}</a>
+      	</li>
+      </ng-container>
 
+      <li class="nav-item">
+        <a *ngIf="loginService.isAuthenticated(); else login"  class="nav-link" routerLink="login">
+          Logout
+        </a>
+
+        <ng-template #login>
+          <a class="nav-link" routerLink="login">
+            Login
+          </a>
+        </ng-template>
+      </li>
     </ul>
   </div>
 </nav>

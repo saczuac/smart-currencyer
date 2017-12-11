@@ -29,7 +29,7 @@ export class WalletService {
   }
 
   getWallets (): Observable<Wallet[]> {
-    return this.http.get<Wallet[]>(this.walletUrl)
+    return this.http.get<Wallet[]>(this.walletUrl + '/')
       .pipe(
         tap(currencies => console.log(`fetched wallets`)),
         catchError(this.handleError('getWallets', []))

@@ -4,13 +4,14 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LoginService } from './login.service';
 
 @Injectable()
 export class CurrencyService {
 
   private currencyUrl = 'http://localhost:8000/currencies';  // URL to web api
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private loginService:LoginService) { }
 
   /**
    * Handle Http operation that failed.
@@ -28,7 +29,7 @@ export class CurrencyService {
   }
 
   getCurrencies (): Observable<Currency[]> {
-    return this.http.get<Currency[]>(this.currencyUrl)
+    return this.http.get<Currency[]>(this.currencyUrl + '/')
       .pipe(
         tap(currencies => console.log(`fetched currencies`)),
         catchError(this.handleError('getCurrencies', []))

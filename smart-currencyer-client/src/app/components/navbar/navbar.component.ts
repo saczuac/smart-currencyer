@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Link } from './../../classes/link';
+import { LoginService }  from './../../services/login.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,12 +13,14 @@ export class NavbarComponent implements OnInit {
   links: Link[];
   selectedLink: Link;
 
-  constructor() { }
+  constructor(private loginService: LoginService) { }
 
   getLinks(): void {
+    let authUrl;
+
     this.links = [
       {"name":"Currencies", "url":"/currencies"} as Link,
-      {"name":"Wallets", "url":"/wallets"} as Link,
+      {"name":"Wallets", "url":"/wallets"} as Link
     ];
   }
 

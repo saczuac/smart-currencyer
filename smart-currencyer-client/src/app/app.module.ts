@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CurrencyService } from './services/currency.service';
 import { WalletService } from './services/wallet.service';
+import { LoginService } from './services/login.service';
 import { AppComponent } from './components/app/app.component';
 import { CurrenciesComponent } from './components/currencies/currencies.component';
 import { CurrencyDetailComponent } from './components/currency-detail/currency-detail.component';
@@ -12,7 +13,10 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { WalletsComponent } from './components/wallets/wallets.component';
-
+import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './guards/auth.guard';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor'
 
 @NgModule({
   declarations: [
@@ -20,7 +24,8 @@ import { WalletsComponent } from './components/wallets/wallets.component';
     CurrenciesComponent,
     CurrencyDetailComponent,
     NavbarComponent,
-    WalletsComponent
+    WalletsComponent,
+    LoginComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -32,7 +37,14 @@ import { WalletsComponent } from './components/wallets/wallets.component';
   ],
   providers: [
     CurrencyService,
-    WalletService
+    WalletService,
+    LoginService,
+    AuthGuard,
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })
