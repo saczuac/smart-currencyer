@@ -65,6 +65,14 @@ export class TransactionsComponent implements OnInit {
     if (!this.selectedUser) { return; }
     if (!amount) { return; }
 
+    if (amount > this.selectedWallet.balance) {
+         swal({
+            title: `The wallet has not enough money`,
+            type: 'error',
+          })};
+         return;
+    }
+
     const from_wallet = this.selectedWallet
     const toUser = this.selectedUser
 

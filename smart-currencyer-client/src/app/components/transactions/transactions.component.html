@@ -20,7 +20,6 @@
 	    	<div class="form-group">
 	    	  <label for="currency">Wallet From: </label>
 	    	  <select #walletFrom class="form-control" [(ngModel)]="selectedWallet" name="selectedWallet">
-	    	    <option>Select one</option>
 	    	    <option *ngFor="let wallet of wallets" [ngValue]="wallet">{{wallet.currency.name}} - {{ wallet.balance }} {{wallet.currency.symbol}}</option>
 	    	  </select>
 	    	</div>
@@ -28,7 +27,6 @@
 	    	<div class="form-group">
 	    	  <label for="currency">To User</label>
 	    	  <select #userTo class="form-control" [(ngModel)]="selectedUser" name="selectedUser">
-	    	    <option>Select one</option>
 	    	    <option *ngFor="let user of users" [ngValue]="user">
 	    	    	{{user.username}}
 	    	    </option>
@@ -46,7 +44,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="add(amount.value); amount.value='';">
+        <button type="button" class="btn btn-primary" (click)="add(amount.value);">
         	Submit
         </button>
       </div>

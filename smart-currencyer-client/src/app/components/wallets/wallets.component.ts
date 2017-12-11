@@ -64,6 +64,7 @@ export class WalletsComponent implements OnInit {
           })
 
           this.wallets.push(wallet);
+          this.currencies = this.currencies.filter(c => c.name != wallet.currency.name )
         } else {
           swal({
             title: 'Error creating wallet',
@@ -90,6 +91,8 @@ export class WalletsComponent implements OnInit {
           'success'
         )
         this.wallets = this.wallets.filter(w => w !== wallet);
+        const currency: Currency = wallet.currency
+        this.currencies.push(currency);
         this.walletService.deleteWallet(wallet).subscribe();
       }
     })

@@ -21,7 +21,6 @@
           <div class="form-group">
             <label for="currency">Currency</label>
             <select #walletCurrency class="form-control" [(ngModel)]="selectedCurrency" name="selectedCurrency">
-              <option>Select one</option>
               <option *ngFor="let currency of currencies" [ngValue]="currency">{{currency.name}}</option>
             </select>
           </div>
