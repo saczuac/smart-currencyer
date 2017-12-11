@@ -78,7 +78,7 @@ export class TransactionsComponent implements OnInit {
                 })
           }
 
-          const to_wallet = to_wallet[0]
+          to_wallet = to_wallet[0]
 
           this.transactionService.addTransaction({ to_wallet, from_wallet, amount } as Transaction)
             .subscribe(transaction => {
