@@ -11,6 +11,7 @@ In the console run the following commands
 
 + Activate your virtualenv...
 + `pip install -r requirements.txt`
++ `cp smart_currencyer/settings_env.example.py smart_currencyer/settings_env.py`
 + `python manage.py migrate`
 + `python manage.py loaddata fixtures/currencies.json`
 + `python manage.py runserver`
