@@ -33,7 +33,7 @@ class Wallet(models.Model):
         related_name='wallets'
     )
 
-    balance = models.FloatField(_('Balance actual'), default=0)
+    balance = models.FloatField(_('Balance actual'), default=100)
 
     class Meta:
         verbose_name = "Billetera"
