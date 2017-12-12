@@ -47,12 +47,19 @@ export class WalletsComponent implements OnInit {
         .subscribe(wallets => this.wallets = wallets);
   }
 
+  showError(error:string): void {
+    swal({
+           title: error,
+           type: 'error',
+     });
+  }
+
   add(): void {
-    if (!this.selectedCurrency) { return; }
-    const balance = 0
+    if (!this.selectedCurrency) return this.showError('Must select a currency');
+    
     const currency = this.selectedCurrency
 
-    this.walletService.addWallet({ balance, currency } as Wallet)
+    this.walletService.addWallet({ currency } as Wallet)
       .subscribe(wallet => {
 
         if (wallet) {

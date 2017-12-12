@@ -3,13 +3,14 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class LoginService {
 
   private loginUrl = 'http://localhost:8000/api-token-auth';  // URL to web api
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   /**
    * Handle Http operation that failed.
@@ -40,6 +41,7 @@ export class LoginService {
 
   logout(): void {
     localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
   login(username: string, password: string) : Observable<any> {

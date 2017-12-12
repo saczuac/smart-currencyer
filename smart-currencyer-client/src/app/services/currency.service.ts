@@ -5,6 +5,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginService } from './login.service';
+import swal from 'sweetalert2';
 
 @Injectable()
 export class CurrencyService {
@@ -19,20 +20,35 @@ export class CurrencyService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      console.log(`${operation} failed: ${error.message}`);
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
+   private handleError<T> (operation = 'operation', result?: T) {
+     return (error: any): Observable<T> => {
+       let errorMsg: string;
+
+       if (error.error.detail !== undefined)
+         errorMsg = error.error.detail
+       else {
+         let key = Object.keys(error.error)[0]
+         errorMsg = error.error[key][0]
+       }
+
+       errorMsg = typeof errorMsg === 'string' ? errorMsg : 'server error, can not load response'
+
+       swal({
+         title: `Error ${operation}: ${errorMsg}`,
+         type: 'error',
+       })
+
+       if (error.status === 401) this.loginService.logout();
+
+       return of(result as T);
+     };
+   }
 
   getCurrencies (): Observable<Currency[]> {
     return this.http.get<Currency[]>(this.currencyUrl + '/')
       .pipe(
-        tap(currencies => console.log(`fetched currencies`)),
-        catchError(this.handleError('getCurrencies', []))
+        // tap(currencies => console.log(`fetched currencies`)),  // Do something
+        catchError(this.handleError('fetching currencies', []))
       );
   }
 
@@ -40,16 +56,16 @@ export class CurrencyService {
     const url = `${this.currencyUrl}/havent_user/`
     return this.http.get<Currency[]>(url)
       .pipe(
-        tap(currencies => console.log(`fetched currencies`)),
-        catchError(this.handleError('getHaventCurrencies', []))
+        // tap(currencies => console.log(`fetched currencies`)), // Do something
+        catchError(this.handleError('fetching currencies', []))
       );
   }
 
   getCurrency(id: number): Observable<Currency> {
     const url = `${this.currencyUrl}/${id}/`;
     return this.http.get<Currency>(url).pipe(
-      tap(_ => console.log(`fetched currency id=${id}`)),
-      catchError(this.handleError<Currency>(`getCurrency id=${id}`))
+      // tap(_ => console.log(`fetched currency id=${id}`)), // Do something
+      catchError(this.handleError<Currency>('get currency'))
     );
   }
 
@@ -61,8 +77,8 @@ export class CurrencyService {
     const url = `${this.currencyUrl}/${currency.id}/`
     
     return this.http.put(url, currency, httpOptions).pipe(
-      tap(_ => console.log(`updated currency id=${currency.id}`)),
-      catchError(this.handleError<any>('updateCurrency'))
+      // tap(_ => console.log(`updated currency id=${currency.id}`)), // Do something
+      catchError(this.handleError<any>('updating currency'))
     );
   }
 
@@ -72,8 +88,8 @@ export class CurrencyService {
     };
 
     return this.http.post<Currency>(this.currencyUrl + '/', currency, httpOptions).pipe(
-      tap((currency: Currency) => console.log(`added currency w/ id=${currency.id}`)),
-      catchError(this.handleError<Currency>('addCurrency'))
+      // tap((currency: Currency) => console.log(`added currency w/ id=${currency.id}`)), // Do something
+      catchError(this.handleError<Currency>('adding currency'))
     );
   }
 
@@ -86,8 +102,8 @@ export class CurrencyService {
     };
 
     return this.http.delete<Currency>(url, httpOptions).pipe(
-      tap(_ => console.log(`deleted currency id=${id}`)),
-      catchError(this.handleError<Currency>('deleteCurrency'))
+      // tap(_ => console.log(`deleted currency id=${id}`)), // Do something
+      catchError(this.handleError<any>('deleting currency', true))
     );
   }
 

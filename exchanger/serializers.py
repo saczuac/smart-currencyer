@@ -44,11 +44,15 @@ class TransactionSerializer(serializers.ModelSerializer):
             pk=validated_data['from_wallet']['id'])
         to_wallet = Wallet.objects.get(pk=validated_data['to_wallet']['id'])
         amount = validated_data['amount']
-        return Transaction.objects.create(
+        transac = Transaction(
             to_wallet=to_wallet,
             from_wallet=from_wallet,
             amount=amount
         )
+        transac = transac.save()
+        error = transac.get('error', None)
+        if error:
+            raise serializers.ValidationError(error)
 
     class Meta:
         model = Transaction

@@ -30,16 +30,27 @@ export class CurrencyDetailComponent implements OnInit {
       .subscribe(currency => this.currency = currency);
   }
 
-  save(): void {
-     this.currencyService.updateCurrency(this.currency)
-       .subscribe(() => {
-         swal({
-           title: 'Currency updated',
-           type: 'success',
-         }).then(() => {
-           this.goBack()
-         })
+  showError(error:string): void {
+    swal({
+           title: error,
+           type: 'error',
+     });
+  }
 
+  save(): void {
+
+    if (!this.currency.name) return this.showError('Must enter a name');
+    if (!this.currency.symbol) return this.showError('Must enter a symbol');
+    if (this.currency.symbol.length > 5) return this.showError('Ensure symbol has no more than 5 characters');
+
+     this.currencyService.updateCurrency(this.currency)
+       .subscribe((c) => {
+         if (c) {
+           swal({
+             title: 'Currency updated',
+             type: 'success',
+           }).then(_ => this.goBack())
+         }
        });
    }
 

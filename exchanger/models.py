@@ -101,10 +101,15 @@ class Transaction(models.Model):
         has_enough_money = self.from_wallet.can_send(self.amount)
 
         if not same_currency:
-            raise Exception('Wallets must have the same currency')
+            return {'error': 'Wallets must have the same currency'}
         elif not has_enough_money:
-            raise Exception(
-                'Owner wallet must have enought money for the transaction')
+            return {
+                'error': 'Owner wallet must have enought money'
+            }
+        elif self.amount <= 0:
+            return {
+                'error': 'Amount must be positive',
+            }
         else:
             #  Update the amount of the wallets
             self.from_wallet.remove(self.amount)

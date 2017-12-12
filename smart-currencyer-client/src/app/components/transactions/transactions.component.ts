@@ -60,32 +60,30 @@ export class TransactionsComponent implements OnInit {
         });
   }
 
-  add(amount: number): void {
-    if (!this.selectedWallet) { return; }
-    if (!this.selectedUser) { return; }
-    if (!amount) { return; }
+  showError(error:string): void {
+    swal({
+           title: error,
+           type: 'error',
+     });
+  }
 
-    if (amount > this.selectedWallet.balance) {
-         swal({
-            title: `The wallet has not enough money`,
-            type: 'error',
-          });
-         return;
-    }
+  add(amount: number): any {
+    if (this.selectedWallet === undefined) return this.showError('Must select a wallet');
+    if (this.selectedUser === undefined) return this.showError('Must select a user');
+    if (!amount) return this.showError('Must select an amount');
+    if (amount < 1) return this.showError('The amount must be positive');
+
+    if (amount > this.selectedWallet.balance){
+        return this.showError('The amount is greater than the balance of the wallet selected');
+    } 
 
     let from_wallet = this.selectedWallet
     let toUser = this.selectedUser
 
     this.walletService.getWalletOfUser(toUser, from_wallet.currency)
       .subscribe(to_wallet => {
-
-          if (!to_wallet) {
-            return swal({
-                  title: `Error creating transaction: ${toUser.username} has not a wallet of currency ${from_wallet.currency.name}`,
-                  type: 'error',
-                })
-          }
-
+          if (!to_wallet) return this.showError(`Error creating transaction: ${toUser.username} has not a wallet of currency ${from_wallet.currency.name}`)
+          
           to_wallet = to_wallet[0]
 
           this.transactionService.addTransaction({ to_wallet, from_wallet, amount } as Transaction)
@@ -98,11 +96,7 @@ export class TransactionsComponent implements OnInit {
                 })
                 this.transactions.push(transaction);
               }
-            }, error => {
-              
-            })
-            ;
-
+            });
         })
   }
 }

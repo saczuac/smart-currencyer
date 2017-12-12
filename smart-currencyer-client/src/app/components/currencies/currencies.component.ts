@@ -26,21 +26,33 @@ export class CurrenciesComponent implements OnInit {
         .subscribe(currencies => this.currencies = currencies);
   }
 
+  showError(error:string): void {
+    swal({
+           title: error,
+           type: 'error',
+     });
+  }
+
   add(name: string, symbol: string): void {
     name = name.trim();
     symbol = symbol.trim();
-    if (!name) { return; }
-    if (!symbol) { return; }
+
+    if (!name) return this.showError('Must enter a name');
+    if (!symbol) return this.showError('Must enter a symbol');
+    if (symbol.length > 5) return this.showError('Ensure symbol has no more than 5 characters');
+
     this.currencyService.addCurrency({ name, symbol } as Currency)
       .subscribe(currency => {
-        $('#currencyModal').modal('hide');
+        if (currency) {
+          $('#currencyModal').modal('hide');
 
-        swal({
-          title: 'Currency created',
-          type: 'success',
-        })
+          swal({
+            title: 'Currency created',
+            type: 'success',
+          })
 
-        this.currencies.push(currency);
+          this.currencies.push(currency);
+        }
       });
   }
 
@@ -54,13 +66,17 @@ export class CurrenciesComponent implements OnInit {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.value) {
-        swal(
-          'Deleted!',
-          `The currency ${currency.name} was deleted`,
-          'success'
-        )
-        this.currencies = this.currencies.filter(c => c !== currency);
-        this.currencyService.deleteCurrency(currency).subscribe();
+        this.currencyService.deleteCurrency(currency).subscribe(error => {
+          if (error) return;
+          
+          this.currencies = this.currencies.filter(c => c !== currency);
+
+          swal(
+            'Deleted!',
+            `The currency ${currency.name} was deleted`,
+            'success'
+          )
+        });
       }
     })
   }

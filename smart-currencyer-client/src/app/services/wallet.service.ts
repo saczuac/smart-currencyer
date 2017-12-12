@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import swal from 'sweetalert2';
 
 @Injectable()
 export class WalletService {
@@ -20,28 +21,43 @@ export class WalletService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      console.log(`${operation} failed: ${error.message}`);
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
+   private handleError<T> (operation = 'operation', result?: T) {
+     return (error: any): Observable<T> => {
+       let errorMsg: string;
+
+       if (error.error.detail !== undefined)
+         errorMsg = error.error.detail
+       else {
+         let key = Object.keys(error.error)[0]
+         errorMsg = error.error[key][0]
+       }
+
+       errorMsg = typeof errorMsg === 'string' ? errorMsg : 'server error, can not load response'
+
+       swal({
+         title: `Error ${operation}: ${errorMsg}`,
+         type: 'error',
+       })
+
+       if (error.status === 401) this.loginService.logout();
+
+       return of(result as T);
+     };
+   }
 
   getWallets (): Observable<Wallet[]> {
     return this.http.get<Wallet[]>(this.walletUrl + '/')
       .pipe(
-        tap(currencies => console.log(`fetched wallets`)),
-        catchError(this.handleError('getWallets', []))
+        // tap(currencies => console.log(`fetched wallets`)), // Do something
+        catchError(this.handleError('fetch wallets', []))
       );
   }
 
   getWallet(id: number): Observable<Wallet> {
     const url = `${this.walletUrl}/${id}/`;
     return this.http.get<Wallet>(url).pipe(
-      tap(_ => console.log(`fetched wallet id=${id}`)),
-      catchError(this.handleError<Wallet>(`getWallet id=${id}`))
+      // tap(_ => console.log(`fetched wallet id=${id}`)), // Do something
+      catchError(this.handleError<Wallet>('get wallet'))
     );
   }
 
@@ -53,8 +69,8 @@ export class WalletService {
     };
 
     return this.http.post<Wallet>(url, currency, httpOptions).pipe(
-      tap(_ => console.log(`fetched wallet of user =${user.username}`)),
-      catchError(this.handleError<Wallet>(`getWalletOfUser user=${user.username}`))
+      // tap(_ => console.log(`fetched wallet of user =${user.username}`)), // Do something
+      catchError(this.handleError<Wallet>(`get wallet of user=${user.username}`))
     );
 
   }
@@ -65,8 +81,8 @@ export class WalletService {
     };
 
     return this.http.post<Wallet>(this.walletUrl + '/', wallet, httpOptions).pipe(
-      tap((wallet: Wallet) => console.log(`added wallet w/ id=${wallet.id}`)),
-      catchError(this.handleError<Wallet>('addWallet'))
+      // tap((wallet: Wallet) => console.log(`added wallet w/ id=${wallet.id}`)), // Do something
+      catchError(this.handleError<Wallet>('add wallet'))
     );
   }
 
@@ -79,8 +95,8 @@ export class WalletService {
     };
 
     return this.http.delete<Wallet>(url, httpOptions).pipe(
-      tap(_ => console.log(`deleted wallet id=${id}`)),
-      catchError(this.handleError<Wallet>('walletCurrency'))
+      // tap(_ => console.log(`deleted wallet id=${id}`)), // Do something
+      catchError(this.handleError<any>('delete wallet', true))
     );
   }
 
