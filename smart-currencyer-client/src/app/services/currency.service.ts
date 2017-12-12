@@ -24,11 +24,13 @@ export class CurrencyService {
      return (error: any): Observable<T> => {
        let errorMsg: string;
 
-       if (error.error.detail !== undefined)
+       const hasDetail = error.error.detail ? true : false
+
+       if (hasDetail) {
          errorMsg = error.error.detail
-       else {
+       } else {
          let key = Object.keys(error.error)[0]
-         errorMsg = error.error[key][0]
+         errorMsg = `${key}: ${error.error[key][0]}`
        }
 
        errorMsg = typeof errorMsg === 'string' ? errorMsg : 'server error, can not load response'

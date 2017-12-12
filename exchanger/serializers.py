@@ -50,9 +50,13 @@ class TransactionSerializer(serializers.ModelSerializer):
             amount=amount
         )
         transac = transac.save()
-        error = transac.get('error', None)
-        if error:
-            raise serializers.ValidationError(error)
+        try:
+            error = transac.get('error', None)
+        except:
+            return transac
+        else:
+            if error:
+                raise serializers.ValidationError({'detail': error})
 
     class Meta:
         model = Transaction

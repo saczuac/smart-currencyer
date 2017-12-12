@@ -39,7 +39,11 @@ export class WalletsComponent implements OnInit {
 
   getCurrencies(): void {
     this.currencyService.getHaventCurrencies()
-        .subscribe(currencies => this.currencies = currencies);
+        .subscribe(currencies => {
+          this.currencies = currencies
+          if (currencies.length === 0) return $('#newWallet').hide();
+          $('#newWallet').show()
+        });
   }
 
   getWallets(): void {
@@ -71,7 +75,8 @@ export class WalletsComponent implements OnInit {
           })
 
           this.wallets.push(wallet);
-          this.currencies = this.currencies.filter(c => c.name != wallet.currency.name )
+          this.currencies = this.currencies.filter(c => c.name != wallet.currency.name)
+          if (this.currencies.length === 0) return $('#newWallet').hide();
         } else {
           swal({
             title: 'Error creating wallet',
@@ -92,15 +97,22 @@ export class WalletsComponent implements OnInit {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.value) {
-        swal(
-          'Deleted!',
-          `The wallet of ${wallet.currency.name} was deleted`,
-          'success'
-        )
-        this.wallets = this.wallets.filter(w => w !== wallet);
-        const currency: Currency = wallet.currency
-        this.currencies.push(currency);
-        this.walletService.deleteWallet(wallet).subscribe();
+        this.walletService.deleteWallet(wallet).subscribe(error => {
+          if (error) return;
+          
+          this.currencies = this.currencies.filter(c => c !== currency);
+
+          swal(
+            'Deleted!',
+            `The wallet of ${wallet.currency.name} was deleted`,
+            'success'
+          )
+
+          this.wallets = this.wallets.filter(w => w !== wallet);
+          const currency: Currency = wallet.currency
+          this.currencies.push(currency);
+          $('#newWallet').show()
+        });
       }
     })
   }

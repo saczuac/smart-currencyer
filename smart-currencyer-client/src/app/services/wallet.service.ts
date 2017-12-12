@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LoginService } from './login.service';
 import swal from 'sweetalert2';
 
 @Injectable()
@@ -13,7 +14,7 @@ export class WalletService {
 
   private walletUrl = 'http://localhost:8000/wallets';  // URL to web api
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private loginService: LoginService) { }
 
   /**
    * Handle Http operation that failed.
@@ -25,9 +26,11 @@ export class WalletService {
      return (error: any): Observable<T> => {
        let errorMsg: string;
 
-       if (error.error.detail !== undefined)
+       const hasDetail = error.error.detail ? true : false
+
+       if (hasDetail) {
          errorMsg = error.error.detail
-       else {
+       } else {
          let key = Object.keys(error.error)[0]
          errorMsg = error.error[key][0]
        }
@@ -70,7 +73,7 @@ export class WalletService {
 
     return this.http.post<Wallet>(url, currency, httpOptions).pipe(
       // tap(_ => console.log(`fetched wallet of user =${user.username}`)), // Do something
-      catchError(this.handleError<Wallet>(`get wallet of user=${user.username}`))
+      catchError(this.handleError<Wallet>(`getting ${user.username} wallet of ${currency.name}`))
     );
 
   }

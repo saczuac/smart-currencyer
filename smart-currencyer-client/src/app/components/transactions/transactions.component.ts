@@ -82,7 +82,8 @@ export class TransactionsComponent implements OnInit {
 
     this.walletService.getWalletOfUser(toUser, from_wallet.currency)
       .subscribe(to_wallet => {
-          if (!to_wallet) return this.showError(`Error creating transaction: ${toUser.username} has not a wallet of currency ${from_wallet.currency.name}`)
+          if (!to_wallet) return; 
+          // this.showError(`Error creating transaction: ${toUser.username} has not a wallet of currency ${from_wallet.currency.name}`)
           
           to_wallet = to_wallet[0]
 

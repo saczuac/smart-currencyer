@@ -4,6 +4,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 @Injectable()
 export class LoginService {
@@ -18,14 +19,31 @@ export class LoginService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      console.log(`${operation} failed: ${error.message}`);
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
+   private handleError<T> (operation = 'operation', result?: T) {
+     return (error: any): Observable<T> => {
+       let errorMsg: string;
+
+       const hasDetail = error.error.detail ? true : false
+
+       if (hasDetail) {
+         errorMsg = error.error.detail
+       } else {
+         let key = Object.keys(error.error)[0]
+         errorMsg = `${key}: ${error.error[key][0]}`
+       }
+
+       errorMsg = typeof errorMsg === 'string' ? errorMsg : 'server error, can not load response'
+
+       swal({
+         title: `Error ${operation}: ${errorMsg}`,
+         type: 'error',
+       })
+
+       if (error.status === 401) this.logout();
+
+       return of(result as T);
+     };
+   }
 
   getToken(): string {
     return localStorage.token

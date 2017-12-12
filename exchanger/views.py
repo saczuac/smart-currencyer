@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
-from rest_framework import viewsets, status
+from rest_framework import viewsets
 from serializers import UserSerializer, CurrencySerializer
 from serializers import TransactionSerializer, WalletSerializer
 from rest_framework import permissions
@@ -32,7 +32,7 @@ class CurrencyViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(currencies, many=True)
             return Response(serializer.data)
 
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response([])
 
 
 class TransactionViewSet(viewsets.ModelViewSet):
@@ -62,4 +62,6 @@ class WalletViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(wallets_of, many=True)
             return Response(serializer.data)
 
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {'detail': 'The user has not wallet a of this currency'},
+            status=400)
