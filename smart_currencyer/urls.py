@@ -12,7 +12,8 @@ router.register(r'currencies', views.CurrencyViewSet)
 
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    url(r'^api/', include(router.urls)),
+    url(r'^api/api-token-auth/', obtain_jwt_token),
     url(r'^admin/', admin.site.urls),
-    url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^', views.AppView.as_view()),
 ]

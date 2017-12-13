@@ -49,14 +49,14 @@ class TransactionSerializer(serializers.ModelSerializer):
             from_wallet=from_wallet,
             amount=amount
         )
-        transac = transac.save()
+        search_error = transac.save()
         try:
-            error = transac.get('error', None)
+            search_error = search_error.get('error', None)
         except:
             return transac
         else:
-            if error:
-                raise serializers.ValidationError({'detail': error})
+            if search_error:
+                raise serializers.ValidationError({'detail': search_error})
 
     class Meta:
         model = Transaction

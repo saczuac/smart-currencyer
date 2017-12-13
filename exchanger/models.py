@@ -115,4 +115,4 @@ class Transaction(models.Model):
             self.from_wallet.remove(self.amount)
             self.to_wallet.sum(self.amount)
 
-            super(Transaction, self).save(*args, **kwargs)
+            return super(Transaction, self).save(*args, **kwargs)

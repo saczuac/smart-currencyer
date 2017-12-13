@@ -9,6 +9,8 @@ from models import Currency, Transaction, Wallet
 from django_filters import rest_framework
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
+from django.views import generic
+from django.shortcuts import render
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
@@ -65,3 +67,11 @@ class WalletViewSet(viewsets.ModelViewSet):
         return Response(
             {'detail': 'The user has not wallet a of this currency'},
             status=400)
+
+
+class AppView(generic.View):
+    template_name = "exchanger/index.html"
+
+    def get(self, request, *args, **kwargs):
+        ctx = {}
+        return render(request, self.template_name, ctx)
