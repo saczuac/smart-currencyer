@@ -13,6 +13,11 @@ In the console run the following commands
 + `python manage.py migrate`
 + `python manage.py loaddata fixtures/currencies.json`
 + Create some users with: `python manage.py createsuperuser`
++ `cd static/smart-currencyer-client`
++ `npm install -g @angular/cli`
++ `npm install`
++ `ng build`
++ `cd ..` Two times
 + `python manage.py runserver`
 + Go to [localhost](http://localhost:8000)
 + Login with some users, create wallets, make transactions (notice that the sender and the receiver must have a wallet of same currency)
